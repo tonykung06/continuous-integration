@@ -26,6 +26,8 @@ describe('get jobs', function() {
     before(function(done) {
         this.timeout(5000);
         
+        console.log('what is the connection string', config.MONGODB_CONN);
+        
         jobsData.connectDb(config.MONGODB_CONN)
         .then(resetJobs)
         .then(jobsData.seedJobs)
