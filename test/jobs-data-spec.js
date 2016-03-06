@@ -2,11 +2,21 @@ var expect = require('chai').expect;
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 var jobsData = require('../jobs-data');
-var config = require('../config/dev');
+var config = require('../config/' + (process.env.ENVIRONMENT || 'dev'));
 
 var resetJobs = function() {
     return new Promise(function(resolve, reject) {
-      mongoose.connection.collections['jobs'].drop().then(resolve).catch(reject);  
+        mongoose.connection.db.listCollections({name: 'jobs'}).next(function(err, collinfo) {
+            if (err) {
+                reject(err);
+            }
+            
+            if (collinfo) {
+                mongoose.connection.collection('jobs').drop().then(resolve).catch(reject);
+            } else {
+                resolve();
+            }
+        });
     });
 };
 
