@@ -1,4 +1,4 @@
 .c9
 data
 node_modules
-./config/prod.js
+prod.js
