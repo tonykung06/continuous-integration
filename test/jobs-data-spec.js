@@ -2,6 +2,7 @@ var expect = require('chai').expect;
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 var jobsData = require('../jobs-data');
+var config = require('../config/' + (process.env.ENVIRONMENT || 'dev'));
 
 var resetJobs = function() {
     return new Promise(function(resolve, reject) {
@@ -15,7 +16,7 @@ describe('get jobs', function() {
     before(function(done) {
         this.timeout(5000);
         
-        jobsData.connectDb('mongodb://tonykung06:k88578345@ds023448.mlab.com:23448/continuous-integration')
+        jobsData.connectDb(config.MONGODB_CONN)
         .then(resetJobs)
         .then(jobsData.seedJobs)
         .then(jobsData.findJobs({}))

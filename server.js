@@ -1,5 +1,6 @@
 var express = require('express');
 var jobsData = require('./jobs-data');
+var config = require('./config/' + (process.env.ENVIRONMENT || 'dev'));
 
 var app = express();
 
@@ -18,7 +19,7 @@ app.get('*', function(req, res) {
     res.render('index');
 });
 
-jobsData.connectDb('mongodb://tonykung06:k88578345@ds023448.mlab.com:23448/continuous-integration').then(function() {
+jobsData.connectDb(config.MONGODB_CONN).then(function() {
     console.log('connected to mongodb');
     jobsData.seedJobs();
 });
