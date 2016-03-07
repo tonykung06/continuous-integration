@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 var jobsData = require('../jobs-data');
-var config = require('../config/' + (process.env.ENVIRONMENT || 'dev'));
+var config = require('../config/dev');
 
 var resetJobs = function() {
     return new Promise(function(resolve, reject) {

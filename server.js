@@ -1,6 +1,6 @@
 var express = require('express');
 var jobsData = require('./jobs-data');
-var config = require('./config/' + (process.env.ENVIRONMENT || 'dev'));
+var config = require('./config/dev');
 
 var app = express();
 

@@ -1,3 +1,3 @@
 module.exports = {
-    MONGODB_CONN: 'mongodb://localhost/continuous-integration'
+    MONGODB_CONN: process.env.MONGODB_CONN || 'mongodb://localhost/continuous-integration'
 };
