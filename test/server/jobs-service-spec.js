@@ -24,7 +24,7 @@ var db = {
     }
 };
 
-var jobService = require('../job-service')(db, app);
+var jobService = require('../../job-service')(db, app);
 
 describe('save jobs', function() {
     it('should validate that title is greater than 4 characters');

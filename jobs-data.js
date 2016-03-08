@@ -2,21 +2,6 @@ var Promise = require('bluebird');
 var mongoose = require('mongoose');
 var jobModel = require('./models/Job');
 
-var findJobs = function(condition) {
-    var query = jobModel.Job.find(condition);
-
-    return Promise.promisify(query.exec, {
-        context: query
-    });
-};
-
-exports.findJobs = findJobs;
-
-exports.connectDb = Promise.promisify(mongoose.connect, {
-    context: mongoose
-});
-
-
 var jobs = [{
    title: 'Cook1' ,
    description: 'testing1'
@@ -31,16 +16,32 @@ var jobs = [{
    description: 'testing4'
 }];
 
-var createJob = Promise.promisify(jobModel.Job.create, {
+var findJobs = function(condition) {
+    var query = jobModel.Job.find(condition);
+
+    return Promise.promisify(query.exec, {
+        context: query
+    });
+};
+
+var saveJob = Promise.promisify(jobModel.Job.create, {
     context: jobModel.Job
 });
 
-exports.seedJobs = function() {
-    return findJobs({})().then(function(existingJobs) {
-        if (existingJobs.length < 1) {
-            return Promise.map(jobs, function(job) {
-                return createJob(job);
-            });
-        }
-    });
+module.exports = {
+    seedJobs: function seedJobs() {
+        return findJobs({})().then(function(existingJobs) {
+            if (existingJobs.length < 1) {
+                return Promise.map(jobs, function(job) {
+                    return saveJob(job);
+                });
+            }
+        });
+    },
+    saveJob: saveJob,
+    findJobs: findJobs,
+    connectDb: Promise.promisify(mongoose.connect, {
+        context: mongoose
+    })
 };
+
